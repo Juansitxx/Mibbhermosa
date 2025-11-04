@@ -1,0 +1,184 @@
+:root{
+  /* Dark-romantic palette */
+  --bg:#0b0711; /* near black with purple tone */
+  --card:#0f0b13; /* slightly lighter card */
+  --accent:#ff6b98; /* romantic pink accent */
+  --accent-2:#ffd166; /* warm secondary */
+  --muted:#bfb3c3;
+  --text:#f6eef8;
+  --radius:12px;
+  --maxwidth:1100px;
+  --gap:18px;
+}
+
+*{box-sizing:border-box}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s ease}
+.reveal.visible{opacity:1;transform:none}
+
+html,body{height:100%;margin:0;font-family:'Montserrat',system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;background:radial-gradient(1200px 600px at 10% 10%, rgba(255,107,152,0.06), transparent), radial-gradient(900px 500px at 90% 80%, rgba(109,77,121,0.04), transparent), var(--bg);color:var(--text)}
+.page-wrap{max-width:var(--maxwidth);margin:0 auto;padding:24px}
+
+/* HERO */
+.hero{position:relative;border-radius:18px;padding:64px 24px;background:linear-gradient(135deg, rgba(255,107,152,0.06), rgba(255,200,220,0.02));overflow:hidden;margin-bottom:28px}
+.hero-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:flex-start;gap:16px}
+.title{font-size:48px;margin:0;color:var(--text);text-shadow:0 6px 18px rgba(255,107,152,0.06)}
+.title.glow{animation:glow 2.6s ease-in-out infinite}
+.subtitle{margin:0;color:var(--muted)}
+
+@keyframes glow{0%{filter:drop-shadow(0 0 0 rgba(255,107,152,0))}50%{filter:drop-shadow(0 8px 30px rgba(255,107,152,0.12))}100%{filter:drop-shadow(0 0 0 rgba(255,107,152,0))}}
+.hero-actions{display:flex;gap:12px;margin-top:8px;align-items:flex-start}
+.gallery-control{display:flex;flex-direction:column;align-items:center;gap:8px}
+.other-actions{display:flex;flex-direction:row;gap:12px}
+.btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px 16px;border-radius:10px;cursor:pointer;font-weight:600;color:var(--text)}
+.btn-accent{background:var(--accent);color:#1b0610;border:none}
+
+.confetti-canvas{position:absolute;inset:0;pointer-events:none;z-index:1}
+
+/* Hero shapes for depth */
+.hero{perspective:1000px;position:relative}
+.hero-shapes{position:absolute;inset:0;pointer-events:none;z-index:1}
+.hero-shapes .shape{position:absolute;border-radius:50%;filter:blur(40px);opacity:0.12;transform:translateZ(0)}
+.hero-shapes .s1{width:360px;height:360px;left:-60px;top:-40px;background:linear-gradient(90deg,var(--accent),#6b2f8a)}
+.hero-shapes .s2{width:220px;height:220px;right:60px;top:40px;background:linear-gradient(90deg,#6bd3ff,#8a6bff)}
+.hero-shapes .s3{width:180px;height:180px;left:40%;bottom:-40px;background:linear-gradient(90deg,var(--accent-2),#ff9ab0)}
+
+/* Neon / glitch title */
+.title{position:relative}
+.title::after{content:'';position:absolute;inset:0;left:2px;text-shadow:0 0 18px rgba(255,107,152,0.12);mix-blend-mode:screen;opacity:0.6}
+.title.glitch{animation:glitch 2.8s infinite}
+@keyframes glitch{0%{text-shadow:0 0 0 rgba(255,107,152,0)}10%{text-shadow:-4px 0 8px rgba(255,20,90,0.6)}11%{text-shadow:4px 0 8px rgba(20,200,255,0.6)}20%{text-shadow:0 0 0 rgba(255,107,152,0)}100%{text-shadow:0 0 0 rgba(255,107,152,0)}}
+
+/* Cards */
+.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent), var(--card);border-radius:var(--radius);padding:18px;margin-bottom:18px;box-shadow:0 8px 30px rgba(0,0,0,0.5)}
+.text-row{display:flex;gap:18px;align-items:center}
+.photo-placeholder{width:200px;height:140px;object-fit:cover;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+
+/* Gallery */
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:12px}
+.gallery-item{width:100%;height:160px;object-fit:cover;border-radius:14px;cursor:pointer;transition:transform .35s cubic-bezier(.2,.9,.2,1), box-shadow .35s ease, filter .35s ease;opacity:0;transform:translateY(12px);will-change:transform}
+.gallery-item:hover{transform:translateY(-8px) scale(1.04) rotateX(2deg);box-shadow:0 20px 40px rgba(0,0,0,0.5);filter:brightness(1.06) saturate(1.06)}
+
+/* 3D tilt effect container */
+.gallery-item-inner{transform-style:preserve-3d}
+
+/* Cursor trail */
+.cursor-trail{position:fixed;left:0;top:0;pointer-events:none;z-index:99999}
+.cursor-dot{position:absolute;width:10px;height:10px;border-radius:50%;background:linear-gradient(90deg,var(--accent),var(--accent-2));opacity:0.9;transform:translate(-50%,-50%);mix-blend-mode:screen}
+
+/* small screen tweaks */
+@media (max-width:600px){.gallery-item{height:180px}.title{font-size:32px}}
+.gallery-item:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(0,0,0,0.4)}
+
+/* Lightbox play button style */
+.lightbox-controls button{padding:8px 12px;border-radius:8px;border:none;background:rgba(255,255,255,0.06);color:var(--text);cursor:pointer}
+.lightbox-controls #play{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#1b0610}
+
+/* Lightbox */
+.lightbox{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);z-index:999}
+.lightbox[aria-hidden="false"]{display:flex}
+.lightbox img{max-width:92%;max-height:84%;border-radius:10px;box-shadow:0 20px 40px rgba(0,0,0,0.5)}
+.lightbox-close{position:absolute;top:22px;right:22px;background:transparent;border:none;color:white;font-size:22px;cursor:pointer}
+.lightbox-controls{position:absolute;bottom:22px;display:flex;gap:12px}
+.lightbox-controls button{padding:8px 12px;border-radius:8px;border:none;background:rgba(255,255,255,0.12);color:white;cursor:pointer}
+
+footer{margin-top:30px;text-align:center;color:var(--muted)}
+
+/* Splash (pantalla inicial) */
+
+/* SPLASH: estilo "underground" totalmente negro con efectos */
+.splash{
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:99999;color:var(--text);
+  background:#000;overflow:hidden;user-select:none;
+}
+.splash::before{
+  /* sutil vignette + purple glow */
+  content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(600px 300px at 20% 20%, rgba(255,107,152,0.04), transparent 10%), radial-gradient(700px 400px at 85% 85%, rgba(106,90,205,0.03), transparent 15%), linear-gradient(180deg, rgba(0,0,0,0.2), transparent 40%);
+}
+.splash::after{
+  /* scanlines / noise effect */
+  content:'';position:absolute;inset:0;pointer-events:none;background-image:repeating-linear-gradient(transparent, transparent 3px, rgba(255,255,255,0.012) 4px);mix-blend-mode:overlay;opacity:0.9;animation:scan 6s linear infinite;
+}
+.splash-inner{position:relative;text-align:center;padding:28px;z-index:2}
+.splash h2{font-size:36px;margin:0 0 8px;color:#fff;text-transform:uppercase;letter-spacing:4px;filter:drop-shadow(0 6px 18px rgba(170,20,90,0.08))}
+.splash p{color:rgba(255,255,255,0.6);margin:0 0 18px}
+.splash-btn{background:transparent;border:2px solid rgba(255,255,255,0.06);color:var(--text);padding:10px 18px;border-radius:8px;cursor:pointer;font-size:15px}
+.splash .splash-btn:hover{border-color:var(--accent);box-shadow:0 6px 30px rgba(255,107,152,0.08)}
+.splash[aria-hidden="true"]{display:none}
+
+/* pulse + flicker */
+@keyframes pulseUp{0%{transform:scale(1);opacity:1}50%{transform:scale(1.02);opacity:0.95}100%{transform:scale(1);opacity:1}}
+.splash h2{animation:pulseUp 3.8s ease-in-out infinite}
+
+@keyframes scan{0%{background-position:0 0}100%{background-position:0 200px}}
+
+/* subtle floating particles (using box-shadow trick) */
+.splash .particles{position:absolute;inset:0;pointer-events:none;opacity:0.08}
+.splash .particles::before{content:'';position:absolute;left:10%;top:30%;width:2px;height:2px;border-radius:50%;box-shadow:0 0 #fff, 40px 80px #fff, 120px 30px #fff, 220px 120px #fff, 320px 20px #fff, 520px 90px #fff;animation:drift 18s linear infinite}
+@keyframes drift{0%{transform:translateY(0)}50%{transform:translateY(-40px)}100%{transform:translateY(0)}}
+
+/* make the splash feel heavier: hide scroll while visible */
+.splash-active-body{overflow:hidden!important}
+
+/* Effects panel */
+.effects-panel{position:fixed;right:18px;top:80px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:12px;padding:8px;display:flex;flex-direction:column;gap:8px;z-index:120000;box-shadow:0 12px 40px rgba(0,0,0,0.6)}
+.effects-panel[aria-hidden="true"]{display:none}
+.effects-panel .effect-btn{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text);padding:8px 12px;border-radius:8px;cursor:pointer}
+.effects-panel .effect-btn:hover{background:rgba(255,255,255,0.02);border-color:var(--accent)}
+
+.volume-container{width:100%;display:flex;justify-content:center;margin-top:12px;margin-bottom:8px}
+.volume-slider{
+  width:60%;max-width:360px;height:12px;background:transparent;cursor:pointer;border-radius:10px;-webkit-appearance:none;appearance:none;
+  /* fallback background; JS updates inline background for filled portion */
+  background-image:linear-gradient(90deg,var(--accent) 12%, rgba(255,255,255,0.04) 12%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.02);
+}
+/* track - keep visually minimal, actual fill handled by background-image */
+.volume-slider::-webkit-slider-runnable-track{height:12px;border-radius:10px;background:transparent}
+.volume-slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:linear-gradient(180deg,#ffffff,#ffd6e6);border:2px solid rgba(0,0,0,0.35);box-shadow:0 6px 18px rgba(0,0,0,0.6);margin-top: -3px}
+.volume-slider::-moz-range-track{height:12px;border-radius:10px;background:transparent}
+.volume-slider::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:linear-gradient(180deg,#ffffff,#ffd6e6);box-shadow:0 6px 18px rgba(0,0,0,0.6);border:2px solid rgba(0,0,0,0.35)}
+.volume-slider:focus{outline:none}
+.volume-container.small{width:160px;display:flex;justify-content:center}
+.volume-container.small .volume-slider{width:140px;max-width:140px}
+.visually-hidden{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap;border:0;padding:0;margin:-1px}
+
+/* Floating messages */
+.floating-msg{position:fixed;left:50%;transform:translateX(-50%);bottom:-40px;padding:10px 18px;border-radius:24px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#1b0610;font-weight:700;z-index:100001;box-shadow:0 18px 40px rgba(0,0,0,0.5);opacity:0}
+@keyframes float-msg{0%{transform:translateX(-50%) translateY(40px);opacity:0}10%{opacity:1}100%{transform:translateX(-50%) translateY(-120vh);opacity:0}}
+
+/* Ripple effect */
+.rains-overlay{position:fixed;inset:0;pointer-events:none;z-index:100002;overflow:hidden}
+.rains-overlay .drop{position:absolute;width:2px;height:18px;background:linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.05));opacity:0.08;border-radius:2px;transform:translateY(-120vh);will-change:transform,opacity}
+@keyframes drop-fall{0%{transform:translateY(-10vh);opacity:0}10%{opacity:0.9}100%{transform:translateY(120vh);opacity:0}}
+
+/* Stars background overlay */
+.stars-overlay{position:fixed;inset:0;pointer-events:none;z-index:100000;background:transparent}
+.stars-overlay .star{position:absolute;width:2px;height:2px;border-radius:50%;background:rgba(255,255,255,0.9);filter:blur(0.6px);opacity:0.9;animation:star-twinkle 2.4s linear infinite}
+@keyframes star-twinkle{0%{opacity:0.2;transform:scale(0.6)}50%{opacity:1;transform:scale(1)}100%{opacity:0.2;transform:scale(0.6)}}
+
+/* Moon (now flexible so JS can spawn many moons) */
+.moon{position:fixed;border-radius:50%;background:radial-gradient(circle at 35% 30%, #fff 0%, #f5f0ff 20%, #d6c9ef 50%, #9a7fb3 100%);z-index:100001;pointer-events:none;opacity:0;transform:translateZ(0)}
+.moon.glow{opacity:1}
+@keyframes moon-float{0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)}}
+
+/* small helper for removing old ripple/sparkle styles — those effects were removed per request */
+
+/* Music toggle small adjustments */
+#toggle-music{display:inline-flex;align-items:center;gap:8px}
+
+/* small screens */
+@media (max-width:600px){.title{font-size:32px}.text-row{flex-direction:column}.photo-placeholder{width:100%;height:200px}}
+
+/* Simple float animation for small hearts (applied via JS) */
+@keyframes float-up{0%{transform:translateY(0);opacity:1}100%{transform:translateY(-180px);opacity:0}}
+.heart{position:fixed;font-size:26px;pointer-events:none;animation:float-up 1400ms linear forwards}
+
+/* Fullscreen hearts overlay */
+.hearts-overlay{position:fixed;inset:0;pointer-events:none;z-index:100000;overflow:hidden}
+.heart-large{position:absolute;left:50%;top:60%;transform:translate(-50%,0);font-size:22px;opacity:0;will-change:transform,opacity}
+@keyframes heart-pop{
+  0%{transform:translate(-50%,0) scale(0.6) rotate(0deg);opacity:0}
+  10%{opacity:1}
+  100%{transform:translate(var(--tx,0px),calc(-120vh + var(--ty,0px))) rotate(var(--rot,0deg)) scale(var(--s,1));opacity:0}
+}
+

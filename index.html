@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Para ti, miamor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="splash-active-body">
+  <div class="page-wrap">
+    <header class="hero" id="hero">
+      <div class="hero-inner">
+        <h1 class="title">For youuuuu papoi</h1>
+        <p class="subtitle">Gracias por llegar a mi vida</p>
+        <p class="subtitle">La haces muy bonita, eres muy importante para mi!</p>
+        <div class="hero-actions">
+          <div class="gallery-control">
+            <button id="open-gallery" class="btn">Ver fotos</button>
+            <div class="volume-container small">
+              <label for="volume-slider" class="visually-hidden">Volumen</label>
+              <input id="volume-slider" class="volume-slider" type="range" min="0" max="100" value="12" aria-label="Volumen" />
+            </div>
+          </div>
+          <div class="other-actions">
+            <button id="send-love" class="btn btn-accent">Cosas chidas si das clic ❤️</button>
+            <button id="effects-toggle" class="btn">Más efectos xd ✨</button>
+          </div>
+        </div>
+      </div>
+      <canvas id="confetti-canvas" class="confetti-canvas" aria-hidden="true"></canvas>
+      <!-- formas y elementos parallax en el hero -->
+      <div class="hero-shapes" aria-hidden="true">
+        <span class="shape s1"></span>
+        <span class="shape s2"></span>
+        <span class="shape s3"></span>
+      </div>
+    </header>
+
+      <section id="gallery" class="card">
+        <h2>Galería en construcción</h2>
+        <p>Toca una imagen para maximizarla.</p>
+        <div class="gallery-grid" id="gallery-grid">
+          <!-- Galería generada desde la carpeta imgs: todas las imágenes/videos presentes -->
+          <img class="gallery-item" data-type="image" src="imgs/RobloxScreenShot20250923_015313710.png" alt="Roblox screenshot">
+          <img class="gallery-item" data-type="image" src="imgs/WhatsApp%20Image%202025-11-04%20at%204.01.26%20AM.jpeg" alt="Foto 1">
+          <img class="gallery-item" data-type="image" src="imgs/WhatsApp%20Image%202025-11-04%20at%204.01.37%20AM.jpeg" alt="Foto 2">
+          <img class="gallery-item" data-type="image" src="imgs/WhatsApp%20Image%202025-11-04%20at%204.01.43%20AM.jpeg" alt="Foto 3">
+          <img class="gallery-item" data-type="image" src="imgs/WhatsApp%20Image%202025-11-04%20at%204.02.14%20AM.jpeg" alt="Foto 4">
+          <img class="gallery-item" data-type="image" src="imgs/WhatsApp%20Image%202025-11-04%20at%204.02.23%20AM.jpeg" alt="Foto 5">
+          <img class="gallery-item" data-type="image" src="imgs/WhatsApp%20Image%202025-11-04%20at%204.02.53%20AM.jpeg" alt="Foto 7">
+          <img class="gallery-item" data-type="image" src="imgs/WhatsApp%20Image%202025-11-04%20at%204.03.06%20AM.jpeg" alt="Foto 8">
+          <img class="gallery-item" data-type="image" src="imgs/WhatsApp%20Image%202025-11-04%20at%204.03.30%20AM.jpeg" alt="Foto 9">
+          <img class="gallery-item" data-type="image" src="imgs/WhatsApp%20Image%202025-11-04%20at%204.03.39%20AM.jpeg" alt="Foto 10">
+          <img class="gallery-item" data-type="image" src="imgs/WhatsApp%20Image%202025-11-04%20at%204.04.03%20AM.jpeg" alt="Foto 11">
+          <img class="gallery-item" data-type="image" src="imgs/WhatsApp%20Image%202025-11-04%20at%204.05.20%20AM.jpeg" alt="Foto 14">
+          <img class="gallery-item" data-type="image" src="imgs/WhatsApp%20Image%202025-11-04%20at%204.05.24%20AM.jpeg" alt="Foto 15">
+          <img class="gallery-item" data-type="image" src="imgs/WhatsApp%20Image%202025-11-04%20at%204.11.26%20AM.jpeg" alt="Foto 12">
+          <img class="gallery-item" data-type="image" src="imgs/WhatsApp%20Image%202025-11-04%20at%204.14.29%20AM.jpeg" alt="Foto 13">
+          <video class="gallery-item" data-type="video" src="imgs/WhatsApp%20Video%202025-11-04%20at%204.03.00%20AM.mp4" muted playsinline preload="metadata"></video>
+          <video class="gallery-item" data-type="video" src="imgs/WhatsApp%20Video%202025-11-04%20at%204.03.12%20AM.mp4" muted playsinline preload="metadata"></video>
+          <video class="gallery-item" data-type="video" src="imgs/WhatsApp%20Video%202025-11-04%20at%204.14.01%20AM.mp4" muted playsinline preload="metadata"></video>
+          <video class="gallery-item" data-type="video" src="imgs/WhatsApp%20Video%202025-11-04%20at%204.14.53%20AM.mp4" muted playsinline preload="metadata"></video>
+        </div>
+      </section>
+
+      <section id="future" class="card">
+        <h2>Y esto es solo el principio</h2>
+      </section>
+    </main>
+
+    <footer>
+      <p>Con amor, <strong>Juansito</strong></p>
+    </footer>
+  </div>
+
+  <!-- Splash de inicio: pantalla negra que solicita click para continuar (permite reproducir audio) -->
+  <div id="splash" class="splash" role="dialog" aria-label="Pantalla de inicio" aria-hidden="false">
+    <div class="splash-inner">
+      <h2>Haz clic aquí</h2>
+      <button id="splash-button" type="button" class="splash-btn">Entrar</button>
+    </div>
+  </div>
+
+  <!-- Elemento de audio: coloca tu canción en assets/audio/song.mp3 -->
+  <audio id="bg-audio" src="assets/audio/song.mp3" loop preload="auto"></audio>
+
+  <!-- Panel de efectos adicionales (oculto por defecto) -->
+  <div id="effects-panel" class="effects-panel" aria-hidden="true">
+    <button class="effect-btn" data-effect="hearts">Estallido</button>
+    <button class="effect-btn" data-effect="msgs">Mensajitos</button>
+    <button class="effect-btn" data-effect="rain">Lluvia</button>
+    <button class="effect-btn" data-effect="stars">Estrellas</button>
+    <button class="effect-btn" data-effect="moon">Luna</button>
+  </div>
+
+  <!-- Modal lightbox -->
+  <div id="lightbox" class="lightbox" aria-hidden="true">
+  <button class="lightbox-close" id="lightbox-close" aria-label="Cerrar">✕</button>
+  <img id="lightbox-img" src="" alt="Foto ampliada">
+  <video id="lightbox-video" controls style="display:none;max-width:92%;max-height:84%;border-radius:10px;background:#000"></video>
+    <div class="lightbox-controls">
+      <button id="prev" aria-label="Anterior">◀</button>
+      <button id="play" aria-label="Reproducir/Pausa">⏵</button>
+      <button id="next" aria-label="Siguiente">▶</button>
+    </div>
+  </div>
+
+  <!-- cursor trail (pequeñas partículas que siguen el cursor) -->
+  <div id="cursor-trail" class="cursor-trail" aria-hidden="true"></div>
+
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>
