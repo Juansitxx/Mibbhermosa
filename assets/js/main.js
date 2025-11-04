@@ -53,6 +53,8 @@
       // ocultar splash y reproducir audio si existe
       hideSplash();
       document.body.classList.remove('splash-active-body');
+      // ensure audio is unmuted and attempt to play — user gesture
+      try{ if(bgAudio) bgAudio.muted = false; }catch(e){}
       tryPlayAudio();
     };
     splashBtn.addEventListener('click', splashHandler);
@@ -84,12 +86,21 @@
     // initial fill
     try{ updateSliderFill(Number(volumeSlider.value)); }catch(e){}
 
-    volumeSlider.addEventListener('input', (ev)=>{
-      const raw = Number(ev.target.value);
-      const v = raw / 100;
-      if(bgAudio) bgAudio.volume = v;
+    // helper that sets volume and ensures audio playback on mobile when user interacts
+    function setVolumeFromRaw(raw){
+      const v = raw/100;
+      try{ if(bgAudio){ bgAudio.muted = false; bgAudio.volume = v; } }catch(e){}
       updateSliderFill(raw);
-    });
+      // If audio not playing yet, try to start it — slider interaction counts as user gesture on mobile
+      tryPlayAudio();
+    }
+
+    // standard input event
+    volumeSlider.addEventListener('input', (ev)=>{ setVolumeFromRaw(Number(ev.target.value)); });
+    // fallback events for mobile/touch and change
+    volumeSlider.addEventListener('change', (ev)=>{ setVolumeFromRaw(Number(ev.target.value)); });
+    volumeSlider.addEventListener('touchmove', (ev)=>{ ev.preventDefault(); /* allow smooth touch control */ setVolumeFromRaw(Number(volumeSlider.value)); }, {passive:false});
+    volumeSlider.addEventListener('pointermove', (ev)=>{ if(ev.pressure>0) setVolumeFromRaw(Number(volumeSlider.value)); });
   }
 
   // cuando se carga la página, asegurarnos de que el splash oculte el scroll
