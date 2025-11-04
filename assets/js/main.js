@@ -253,35 +253,35 @@
 
   // Moon: place a moon element with glow
   function createMoon(){
-    // create multiple moons scattered across the viewport
-    const count = 8 + Math.floor(Math.random() * 6); // 8..13 moons
-    const moons = [];
-    for(let i=0;i<count;i++){
-      const m = document.createElement('div');
-      m.className = 'moon';
-      const size = Math.floor(60 + Math.random()*160); // px
-      const left = Math.random() * 100; // percent
-      const top = Math.random() * 60; // percent from top
-      m.style.width = size + 'px';
-      m.style.height = size + 'px';
-      m.style.left = left + '%';
-      m.style.top = top + '%';
-      m.style.opacity = '0';
-      // vary float duration and start delay so moons feel organic
-      const delay = Math.floor(Math.random() * 1200);
-      const dur = 6000 + Math.floor(Math.random() * 8000);
-      m.style.animation = `moon-float ${dur}ms ease-in-out ${delay}ms infinite`;
-      // slight variation in shadow
-      m.style.boxShadow = `0 ${8 + Math.random()*18}px ${20 + Math.random()*30}px rgba(150,110,190,${0.08 + Math.random()*0.12})`;
-      document.body.appendChild(m);
-      // trigger glow class on next frame
-      requestAnimationFrame(()=> m.classList.add('glow'));
-      moons.push(m);
+    // Create a single decorative moon. If one already exists, toggle its glow/remove it.
+    let existing = document.querySelector('.moon.big');
+    if(existing){
+      // If already glowing, remove it
+      if(existing.classList.contains('glow')){
+        existing.classList.remove('glow');
+        setTimeout(()=> existing.remove(), 700);
+        return;
+      }
     }
-    // cleanup after visible period
+    // create moon
+    const m = document.createElement('div');
+    m.className = 'moon big position-top-right';
+    // optional size tweak: keep responsive if viewport small
+    const vw = Math.min(window.innerWidth, 1200);
+    const size = vw < 420 ? 110 : (vw < 800 ? 140 : 180);
+    m.style.width = size + 'px';
+    m.style.height = size + 'px';
+    // gently animate rotation for realism
+    m.style.transition = 'transform 600ms ease';
+    document.body.appendChild(m);
+    // show with glow
+    requestAnimationFrame(()=> m.classList.add('glow'));
+    // small subtle rotation/tilt while visible
+    m._rotTimer = setInterval(()=>{ const r = (Math.random()*6 - 3); m.style.transform = `rotate(${r}deg)`; }, 1400);
+    // remove after a while
     setTimeout(()=>{
-      moons.forEach(m=>{ if(m){ m.classList.remove('glow'); setTimeout(()=> m.remove(), 800); } });
-    }, 18000);
+      if(m){ m.classList.remove('glow'); clearInterval(m._rotTimer); setTimeout(()=> m.remove(), 700); }
+    }, 16000);
   }
 
   // Create many large hearts across the screen for dramatic effect

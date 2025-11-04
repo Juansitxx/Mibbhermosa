@@ -26,9 +26,12 @@ html,body{height:100%;margin:0;font-family:'Montserrat',system-ui,-apple-system,
 .subtitle{margin:0;color:var(--muted)}
 
 @keyframes glow{0%{filter:drop-shadow(0 0 0 rgba(255,107,152,0))}50%{filter:drop-shadow(0 8px 30px rgba(255,107,152,0.12))}100%{filter:drop-shadow(0 0 0 rgba(255,107,152,0))}}
-.hero-actions{display:flex;gap:12px;margin-top:8px;align-items:flex-start}
-.gallery-control{display:flex;flex-direction:column;align-items:center;gap:8px}
-.other-actions{display:flex;flex-direction:row;gap:12px}
+.hero-actions{display:flex;gap:10px;margin-top:6px;align-items:center}
+.gallery-control{display:flex;flex-direction:column;align-items:center;gap:6px}
+.gallery-control > .btn{ /* keep button in normal flow so all three buttons align horizontally */
+  transform:none;
+}
+.other-actions{display:flex;flex-direction:row;gap:8px}
 .btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px 16px;border-radius:10px;cursor:pointer;font-weight:600;color:var(--text)}
 .btn-accent{background:var(--accent);color:#1b0610;border:none}
 
@@ -120,10 +123,22 @@ footer{margin-top:30px;text-align:center;color:var(--muted)}
 .splash-active-body{overflow:hidden!important}
 
 /* Effects panel */
-.effects-panel{position:fixed;right:18px;top:80px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:12px;padding:8px;display:flex;flex-direction:column;gap:8px;z-index:120000;box-shadow:0 12px 40px rgba(0,0,0,0.6)}
+.effects-panel{position:fixed;left:18px;top:50%;transform:translateY(-50%);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:10px;z-index:120000;box-shadow:0 18px 50px rgba(0,0,0,0.65);border:1px solid rgba(255,255,255,0.04);width:150px;align-items:center}
 .effects-panel[aria-hidden="true"]{display:none}
-.effects-panel .effect-btn{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text);padding:8px 12px;border-radius:8px;cursor:pointer}
-.effects-panel .effect-btn:hover{background:rgba(255,255,255,0.02);border-color:var(--accent)}
+.effects-panel .effect-btn{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border:none;color:var(--text);padding:10px 12px;border-radius:10px;cursor:pointer;width:100%;display:flex;align-items:center;justify-content:flex-start;gap:10px;font-weight:700}
+.effects-panel .effect-btn:hover{background:linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));transform:translateX(4px);box-shadow:0 8px 24px rgba(0,0,0,0.5)}
+/* add small emoji icons via CSS for quick visual cues */
+.effects-panel .effect-btn::before{content:'';display:inline-block;width:20px;text-align:center;font-size:14px}
+.effects-panel .effect-btn[data-effect="hearts"]::before{content:''}
+.effects-panel .effect-btn[data-effect="msgs"]::before{content:''}
+.effects-panel .effect-btn[data-effect="rain"]::before{content:''}
+.effects-panel .effect-btn[data-effect="stars"]::before{content:''}
+.effects-panel .effect-btn[data-effect="moon"]::before{content:''}
+
+@media (max-width:800px){
+  .effects-panel{left:12px;top:auto;bottom:18px;transform:none;flex-direction:row;gap:8px;width:auto;padding:8px}
+  .effects-panel .effect-btn{padding:8px 10px;border-radius:8px;font-size:14px}
+}
 
 .volume-container{width:100%;display:flex;justify-content:center;margin-top:12px;margin-bottom:8px}
 .volume-slider{
@@ -140,6 +155,8 @@ footer{margin-top:30px;text-align:center;color:var(--muted)}
 .volume-slider:focus{outline:none}
 .volume-container.small{width:160px;display:flex;justify-content:center}
 .volume-container.small .volume-slider{width:140px;max-width:140px}
+/* nudge the small volume container slightly downward so it aligns visually under the button */
+.volume-container.small{margin-top:14px}
 .visually-hidden{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap;border:0;padding:0;margin:-1px}
 
 /* Floating messages */
@@ -157,9 +174,21 @@ footer{margin-top:30px;text-align:center;color:var(--muted)}
 @keyframes star-twinkle{0%{opacity:0.2;transform:scale(0.6)}50%{opacity:1;transform:scale(1)}100%{opacity:0.2;transform:scale(0.6)}}
 
 /* Moon (now flexible so JS can spawn many moons) */
-.moon{position:fixed;border-radius:50%;background:radial-gradient(circle at 35% 30%, #fff 0%, #f5f0ff 20%, #d6c9ef 50%, #9a7fb3 100%);z-index:100001;pointer-events:none;opacity:0;transform:translateZ(0)}
+.moon{position:fixed;border-radius:50%;z-index:100001;pointer-events:none;opacity:0;transform:translateZ(0);left:unset;top:unset}
 .moon.glow{opacity:1}
 @keyframes moon-float{0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)}}
+
+/* Big decorative moon style used by the effect */
+.moon.big{width:180px;height:180px;border-radius:50%;background:radial-gradient(circle at 30% 25%, #ffffff 0%, #f1eef8 18%, #d6c9ef 45%, #b9a6d6 100%);box-shadow:0 18px 60px rgba(120,80,160,0.22);border:1px solid rgba(255,255,255,0.06);opacity:0;transform:translateY(0)}
+.moon.big.glow{opacity:1;animation:moon-float 6000ms ease-in-out infinite, moon-pulse 2200ms ease-in-out infinite}
+.moon.big::before{content:'';position:absolute;left:28%;top:30%;width:36px;height:36px;border-radius:50%;background:radial-gradient(circle at 30% 30%, rgba(0,0,0,0.06), rgba(0,0,0,0.12));transform:translate(-50%,-50%);box-shadow: -18px 10px 0 rgba(0,0,0,0.06), 24px -8px 0 rgba(0,0,0,0.04)}
+.moon.big::after{content:'';position:absolute;right:12%;bottom:22%;width:18px;height:18px;border-radius:50%;background:radial-gradient(circle at 30% 30%, rgba(0,0,0,0.06), rgba(0,0,0,0.12));transform:translate(0,0)}
+@keyframes moon-pulse{0%{filter:drop-shadow(0 0 0 rgba(150,110,190,0.00))}50%{filter:drop-shadow(0 10px 40px rgba(150,110,190,0.08))}100%{filter:drop-shadow(0 0 0 rgba(150,110,190,0.00))}}
+
+/* position helpers so JS can place it nicely by default */
+.moon.position-top-right{top:8%;right:8%}
+.moon.position-center{top:28%;left:50%;transform:translateX(-50%)}
+
 
 /* small helper for removing old ripple/sparkle styles — those effects were removed per request */
 
